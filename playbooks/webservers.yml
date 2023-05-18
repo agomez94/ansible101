@@ -1,0 +1,28 @@
+# setup webserver
+---
+  - hosts: webservers
+    become: true
+    tasks:
+      - name: update all packages to the latest version
+        apt: 
+          upgrade: dist
+          update_cache: yes
+
+      - name: install apache webserver
+        apt: 
+          name: apache2 
+          state: present
+
+      - name: delete original index.html file
+        file: path=/var/www/html/index.html state=absent
+
+      - name: create new index.html file
+        lineinfile:
+          create: yes
+          path: /var/www/html/index.html
+          line: <html>Hello from server1</html>
+        notify: start apache
+
+    handlers:
+      - name: start apache
+        service: name=apache2 state=started

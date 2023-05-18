@@ -1,0 +1,5 @@
+# sequentially deploy webservers
+---
+  - import_playbook: update-packages.yml
+  - import_playbook: setup-apache.yml
+  - import_playbook: startApache.yml
