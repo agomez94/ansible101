@@ -1,0 +1,6 @@
+# ping playbook
+---
+  - hosts: webservers
+    tasks:
+      - name: ping the servers
+        action: ping

@@ -1,0 +1,7 @@
+# uname playbook
+---
+  - hosts: webservers
+    tasks:   
+      - name: get the OS of each server
+        shell: uname
+        changed_when: False
