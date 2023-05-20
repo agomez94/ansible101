@@ -22,7 +22,7 @@
 
     - name: Copy local index.html to the remote hosts
       copy:
-        src: /wsl.localhost/Ubuntu/home/devops/ansible/ansible_playbooks/index.html
+        src: /home/devops/ansible/ansible_playbooks/index.html
         dest: /var/www/html/index.html
         owner: root
         group: root

@@ -20,7 +20,7 @@
         lineinfile:
           create: yes
           path: /var/www/html/index.html
-          line: <html>Hello from server1</html>
+          line: <html>{{ ansible_hostname }}</html>
         notify: start apache
 
     handlers:
