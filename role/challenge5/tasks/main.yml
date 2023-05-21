@@ -1,0 +1,21 @@
+---
+# tasks file for role/challenge5
+- name: update all packages with apt to latest version
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+- name: install apache webserver
+  apt: 
+    name: apache2 
+    state: present
+
+- name: delete old index.html file
+  file: path={{ filepath }} state=absent
+
+- name: create a simple html file
+  lineinfile:
+    create: yes
+    path: "{{ filepath }}"
+    line: <html>{{ message }}</html>
+  notify: start apache

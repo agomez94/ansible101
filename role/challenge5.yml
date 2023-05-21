@@ -1,0 +1,6 @@
+# playbook to be turned into a webserver role
+---
+  - hosts: webservers
+    become: true
+    roles:
+      - challenge5

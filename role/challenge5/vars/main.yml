@@ -1,0 +1,5 @@
+---
+# vars file for role/challenge5
+my_name: server1
+filepath: /var/www/html/index.html
+message: "Hello from server 1!"
