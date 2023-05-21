@@ -1,0 +1,34 @@
+# setup webservers
+---
+  - hosts: local
+    become: true
+    vars:
+      names: [Marc, John, Patrick]
+
+    vars_files:
+      - ../files/list.yml
+
+    tasks:
+      - name: Print the days of the week
+        debug:
+          msg: "{{ item }}"
+        loop:
+          - Sunday
+          - Monday
+          - Tueday
+          - Wednesday
+          - Thurday
+          - Friday
+          - Saturday
+
+      - name: Print a list of names
+        debug:
+          msg: "{{ my_idx }}: {{ item }}"
+        loop: "{{names}}"
+        loop_control:
+          index_var: my_idx
+
+      - name: Print a list of numbers
+        debug:
+          msg: "{{ item }}"
+        loop: "{{directions}}"

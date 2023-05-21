@@ -1,0 +1,30 @@
+# playbook to be turned into a webserver role
+---
+  - hosts: webservers
+    become: true
+
+    handlers:
+      - name: start apache
+        service: name=apache2 state=started
+
+    vars:
+      my_name: server1
+      filepath: /var/www/html/index.html
+      message: "Hello from server 1!"
+
+    tasks:
+      - name: update all packages with yum
+        yum: name=* state=latest
+
+      - name: install apache webserver
+        yum: name=apache2 state=present
+
+      - name: delete old index.html file
+        file: path={{ filepath }} state=absent
+
+      - name: create a simple html file
+        lininfile:
+          create: yes
+          path: "{{ filepath }}"
+          line: <html>{{ message }}</html>
+        notify: start apache

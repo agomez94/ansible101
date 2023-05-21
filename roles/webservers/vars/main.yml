@@ -1,0 +1,3 @@
+---
+# vars file for roles/webservers
+server_number: 3

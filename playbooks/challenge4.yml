@@ -1,0 +1,35 @@
+# This playbook will load data from the provided files and write a loop that displays the addresses of the servers from the variable files to the console in the format: 
+# server1: 1111.1111.1111.1111
+#
+# server2: 2222.2222.2222.2222
+# 
+# Write another loop that displays the address of each server in the CSV file along with their corresponding index in the format:
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/set_fact_module.html
+# https://docs.ansible.com/ansible/latest/collections/community/general/read_csv_module.html#examples
+# 1: 1111.1111.1111.1111
+#
+# 2: 2222.2222.2222.2222
+---
+  - hosts: local
+    become: true
+    vars:
+      server1: "{{ lookup('csvfile', 'server1 file=../files/assignment_hosts.csv delimiter=, col=2') }}"
+      server2: "{{ lookup('csvfile', 'server2 file=../files/assignment_hosts.csv delimiter=, col=2') }}"
+
+
+    vars_files:
+      - ../files/addresses.yml
+    
+    tasks:
+      - name: Print addresses of the servers in addresses.yml
+        debug:
+          msg: "server{{ my_idx + 1 }}: {{ item }}"
+        loop: "{{addresses}}"
+        loop_control:
+          index_var: my_idx
+
+      - name: Print addresses of the servers in the assignment_hosts.csv
+        debug:
+          msg: 
+            - "server1: {{ server1 }}"
+            - "server2: {{ server2 }}"

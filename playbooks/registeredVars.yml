@@ -1,0 +1,13 @@
+# Registered variables example
+---
+  - hosts: local
+    vars:
+      playbooks_location: "/home/devops/ansible/ansible_playbooks/playbooks"
+    tasks:
+      - name: get the list of all playbooks containing the word 'yml'
+        shell: ls {{ playbooks_location }} | grep yml
+        register: playbooks_with_apache
+
+      - name: list out all playbooks containing the word apache
+        debug: 
+          msg: "{{ playbooks_with_apache}}"

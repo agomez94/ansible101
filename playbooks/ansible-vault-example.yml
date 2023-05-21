@@ -1,0 +1,83 @@
+# ansible vault
+---
+  - hosts: localhost
+
+    vars_files:
+      - ./variables/secret_variables.yml
+
+    tasks:
+      - name: printing out our new password
+        debug:
+          msg: "{{ password1 }}"
+          
+# create folder named variables          
+# ansible-vault create playbooks/variableset_variables.yml
+#New Vault password:
+#Confirm New Vault password:
+# it will open vim, press i, enter name to reference password- password1: enterpasshere
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks$ cd playbooks/variables/
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks/variables$ cat secret_variables
+#$ANSIBLE_VAULT;1.1;AES256
+#61373737303230306131656530356138323563346362616139623864323138343338333034386634
+#6536633430366138343163656637396363626137336636610a623361306535653564386362313764
+#61353330623334356333646564393362663330636534666236613339626136383266366538343537
+#3763653366333139620a316535653139376537303565366533666461366166663966313533333362
+#61346430363663336632343761666534346362333634363837383134636165373263
+#
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks$ ansible-playbook ansible-vault-example.yml --ask-vault-pass
+#Vault password: 
+#[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit
+#localhost does not match 'all'
+#ERROR! Decryption failed (no vault secrets were found that could decrypt) on /home/devops/ansible/ansible_playbooks/playbooks/variables/secret_variables.yml
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks$ ansible-playbook ansible-vault-example.yml --ask-vault-pass
+#Vault password: 
+#[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit
+####localhost does not match 'all'
+#
+#PLAY [localhost] *******************************************************************************
+#TASK [Gathering Facts] *************************************************************************ok: [localhost]
+#
+#TASK [printing out our new password] ***********************************************************fatal: [localhost]: FAILED! => {"msg": "The task includes an option with an undefined variable. 
+#The error was: 'secret_password' is undefined. 'secret_password' is undefined\n\nThe error appears to be in '/home/devops/ansible/ansible_playbooks/playbooks/ansible-vault-example.yml': line 9, column 9, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n    tasks:\n      - name: printing out our new password\n        ^ 
+#here\n"}#
+#
+#PLAY RECAP *************************************************************************************localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+#
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks$ ansible-playbook ansible-vault-example.yml --ask-vault-pass
+#Vault password: 
+#[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit
+#localhost does not match 'all'#
+#
+#PLAY [localhost] *******************************************************************************
+#TASK [Gathering Facts] *************************************************************************ok: [localhost]
+#
+#TASK [printing out our new password] ***********************************************************fatal: [localhost]: FAILED! => {"msg": "The task includes an option with an undefined variable. 
+#The error was: 'secret_password1' is undefined. 'secret_password1' is undefined\n\nThe error appears to be in '/home/devops/ansible/ansible_playbooks/playbooks/ansible-vault-example.yml': line 9, column 9, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n    tasks:\n      - name: printing out our new password\n        
+#^ here\n"}
+#
+#PLAY RECAP *************************************************************************************localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+#
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks$ ansible-playbook ansible-vault-example.yml --ask-vault-pass
+#Vault password: 
+#[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit
+#localhost does not match 'all'
+#
+#PLAY [localhost] *******************************************************************************
+#TASK [Gathering Facts] *************************************************************************ok: [localhost]
+#
+#TASK [printing out our new password] ***********************************************************ok: [localhost] => {
+#    "msg": "******"
+#}
+#
+#PLAY RECAP *************************************************************************************localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+#
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks$ ls
+#ansible-vault-example.yml  loops-and-if.yml    startApache.yml      variables
+#challenge3.yml             ping.yml            uname.yml            webservers.yml
+#copy.yml                   registeredVars.yml  uninstallApache.yml
+#deploy-webservers.yml      setup-apache.yml    update-packages.yml
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks$ cd variables/
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks/variables$ ls
+#secret_variables.yml
+#devops@DESKTOP-10TD7RK:~/ansible/ansible_playbooks/playbooks/variables$ ansible-vault edit secret_variables.yml
+#Vault password#:

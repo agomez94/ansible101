@@ -1,0 +1,38 @@
+# setup webservers
+---
+  - hosts: webservers
+    become: true
+    vars:
+      addresses: [address1, address2, address3]
+    tasks:
+      - name: update all packages to the latest version
+        apt: 
+          upgrade: dist
+          update_cache: yes
+
+      - name: install apache webserver
+        apt: 
+          name: apache2 
+          state: present
+
+      - name: delete original index.html file
+        file: path=/var/www/html/index.html state=absent
+
+      - name: create new index.html file
+        lineinfile:
+          create: yes
+          path: /var/www/html/index.html
+          line: "{% if addresses|length > 10 %}
+                  <html>Will not Print</html>
+                  
+                {% elif addresses|length > 1%}
+                  <html>
+                  {% for address in addresses %}
+                    <li>{{ address }}</li>
+                  {% endfor %}
+                  </html>
+                {% endif %}"
+
+    
+      - name: start apache
+        service: name=apache2 state=started

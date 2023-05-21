@@ -1,0 +1,13 @@
+# loop names
+---
+  - hosts: local
+    become: true
+    
+    vars_files:
+    - ../files/names.yml
+
+    tasks:
+      - name: Print list of names
+        debug:
+          msg: "{{ item }}"
+        loop: "{{names}}"

@@ -1,28 +1,41 @@
-# setup webserver
+# setup webservers
 ---
   - hosts: webservers
     become: true
+    vars:
+      server_number: 3
     tasks:
-      - name: update all packages to the latest version
-        apt: 
+      - name: Update packages to the latest versions
+        apt:
           upgrade: dist
           update_cache: yes
 
-      - name: install apache webserver
-        apt: 
-          name: apache2 
+      - name: Install Apache
+        apt:
+          name: apache2
           state: present
 
-      - name: delete original index.html file
-        file: path=/var/www/html/index.html state=absent
+      - name: Delete original index.html file
+        file:
+          path: /var/www/html/index.html
+          state: absent
 
       - name: create new index.html file
         lineinfile:
           create: yes
           path: /var/www/html/index.html
-          line: <html>{{ ansible_hostname }}</html>
-        notify: start apache
+          line: <html>{{ "Hello World"|replace("World", "from ") }} server3</html>
+        when: server_number == 3
+
+      - name: create new index.html file
+        lineinfile:
+          create: yes
+          path: /var/www/html/index.html
+          line: <html>{{ "Hello World"|replace("World", "from ") }} server1</html>
+        when: server_number == 1
 
     handlers:
-      - name: start apache
-        service: name=apache2 state=started
+      - name: Start Apache service
+        service:
+          name: apache2
+          state: started   

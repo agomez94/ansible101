@@ -1,0 +1,9 @@
+---
+- hosts: local
+  gather_facts: false
+  tasks:
+    - name: Check Python interpreter
+      command: which python3
+      register: which_python
+    - debug:
+        var: which_python.stdout

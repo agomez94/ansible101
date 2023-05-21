@@ -1,0 +1,11 @@
+# error handling
+---
+  - hosts: webservers
+    tasks:
+      - name: check the status of apache
+        command: service apache2 status
+        changed_when: false
+
+      - name: this always fails
+        command: /bin/false
+        ignore_errors: true
